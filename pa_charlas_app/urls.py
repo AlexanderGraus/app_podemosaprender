@@ -12,7 +12,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from graphene_django.views import GraphQLView
 
-from . import views
+from .views import views, views_avisos
 from . import views_rest
 
 rest_router = routers.DefaultRouter()
@@ -83,6 +83,15 @@ urlpatterns = [
 
 	path('', views.texto_list, name='home'),
 	#A: la home page es la lista de textos nuevos
+
+	#S: Avisos ############################
+	path('aviso/', views_avisos.AvisoListView.as_view(), name='aviso_list'),
+	path('aviso/<int:pk>/', views_avisos.AvisoDetailView.as_view(), name='aviso_detail'),
+	path('aviso/mios/', login_required(views_avisos.AvisoMiosListView.as_view()), name='aviso_user_list'),
+	path('aviso/nuevo/', login_required(views_avisos.AvisoFormView.as_view()), name='aviso_new'),
+	path('aviso/nuevo/<int:pk>/',login_required(views_avisos.AvisoUpdateView.as_view()), name='aviso_edit'),
+
+
 ]
 
 
